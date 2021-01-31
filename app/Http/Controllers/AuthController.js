@@ -33,6 +33,10 @@ class AuthController {
         const user = await this.authService.signup({ email, name, password, phone, username })
         return resHelper({ res, data: { user }, message: "Register succcess, wait while we send you email" });
     }
+
+    me({ req, res, next }) {
+        return resHelper({ data: req.user, res })
+    }
 }
 
 

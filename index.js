@@ -5,6 +5,8 @@ const logger = require('morgan');
 const baseRouter = require("./routes/index");
 const EventServiceProvider = require('./app/ServiceProvider/EventServiceProvider');
 const resHelper = require('./app/Helpers/ResHelper');
+const all_routes = require('express-list-endpoints');
+
 require('dotenv').config();
 
 
@@ -20,7 +22,8 @@ app.use(cookieParser());
 // attach base route
 app.use('/', baseRouter);
 
-
+// show all routes when is in debug
+if (eval(process.env.APP_DEBUG)) console.log(all_routes(app));
 
 // Init service providers
 new EventServiceProvider().register()
