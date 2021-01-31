@@ -1,3 +1,4 @@
+const generateAccessToken = require("../../Helpers/GenerateToken");
 const resHelper = require("../../Helpers/ResHelper")
 
 class AuthController {
@@ -12,10 +13,18 @@ class AuthController {
         let user
         try {
             user = await this.authService.login({ email, password });
+            const token = generateAccessToken(user.toJSON())
             if (user) {
-                return resHelper({ res, data: user, message: "User successfuly loged in" });
+                return resHelper({
+                    res, data: {
+                        token,
+                        user
+                    }, message: "User successfuly loged in"
+                });
             }
-        } catch (error) { }
+        } catch (error) {
+            console.log(error);
+        }
         return resHelper({ res, status: 401, error: "Wrong username/email or password!" });
     }
 

@@ -13,7 +13,6 @@ class AuthService extends ServiceBase {
         if (!user)
             return false;
 
-
         let passwordMatches = await this.bcrypt.compareHashToPlain({
             plain: password,
             hash: user.get("password")
@@ -38,11 +37,6 @@ class AuthService extends ServiceBase {
     async resetPassword({ resetId, resetCode }) {
 
     }
-
-
-
-
-
 
 }
 
