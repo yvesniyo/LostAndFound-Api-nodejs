@@ -2,14 +2,6 @@ const Joi = require("joi")
 const Role = require("./Role");
 const UserObserver = require("../Observers/UserObserver");
 const ModelBase = require("./ModelBase");
-const Fields = require('bookshelf-schema/lib/fields'),
-    StringField = Fields.StringField,
-    IntegerField = Fields.IntField,
-    EmailField = Fields.EmailField;
-const Relations = require('bookshelf-schema/lib/relations'),
-    HasMany = Relations.HasMany,
-    BelongsTo = Relations.BelongsTo;
-
 
 class User extends ModelBase {
 
