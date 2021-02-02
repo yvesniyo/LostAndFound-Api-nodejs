@@ -1,20 +1,27 @@
 const { validationResult, buildCheckFunction } = require('express-validator');
-const resHelper = require('../../Helpers/ResHelper');
-const UsersService = require('../../Services/UsersService');
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 
-// sequential processing, stops running validations chain if the previous one have failed.
-const registerValidator = (opts) => {
+const runValidations = async (req, res, next, validations, resHelper) => {
+    for (let validation of validations) {
+        const result = await validation.run(req);
+        if (result.errors.length) break;
+    }
 
-    let user = opts.usersService
+    const errors = validationResult(req);
+    if (errors.isEmpty()) {
+        return next();
+    }
+
+    resHelper({ status: 400, error: errors, res });
+}
+
+const registerValidator = ({ resHelper, usersService }) => {
 
     let validations = [
         checkBodyAndQuery("email").isEmail().custom((email) => {
             return new Promise(async (resolve, reject) => {
-                let userEmail
-                try {
-                    userEmail = await user.getUserByUsername({ email });
-                } catch (error) {
+                let userEmail = await usersService.getUserByUsername({ email })
+                if (!userEmail) {
                     return resolve(true)
                 }
                 return reject("Email is in use")
@@ -33,44 +40,18 @@ const registerValidator = (opts) => {
             return true;
         })
     ]
-    return async (req, res, next) => {
-        for (let validation of validations) {
-            const result = await validation.run(req);
-            if (result.errors.length) break;
-        }
+    return async (req, res, next) => runValidations(req, res, next, validations, resHelper)
 
-        const errors = validationResult(req);
-        if (errors.isEmpty()) {
-            return next();
-        }
-
-        resHelper({ status: 400, error: errors, res });
-
-    };
 };
 
 
-// sequential processing, stops running validations chain if the previous one have failed.
 const loginValidator = (opts) => {
+    const resHelper = opts.resHelper
     let validations = [
         checkBodyAndQuery("email").isString(),
         checkBodyAndQuery("password").isString(),
     ]
-
-
-    return async (req, res, next) => {
-        for (let validation of validations) {
-            const result = await validation.run(req);
-            if (result.errors.length) break;
-        }
-
-        const errors = validationResult(req);
-        if (errors.isEmpty()) {
-            return next();
-        }
-
-        resHelper({ status: 400, error: errors, res });
-    };
+    return async (req, res, next) => runValidations(req, res, next, validations, resHelper)
 };
 
 

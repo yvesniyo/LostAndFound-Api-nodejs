@@ -1,4 +1,4 @@
-const AppContainer = require("../AppContainer")
+const AppContainer = require("../container")
 
 const app = (moduleName) => AppContainer.resolve(moduleName);
 

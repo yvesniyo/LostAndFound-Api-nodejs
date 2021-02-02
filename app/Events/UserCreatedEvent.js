@@ -8,6 +8,14 @@ class UserCreatedEvent extends EventBase {
         this.user = user
     }
 
+    getUser() {
+        return this.user
+    }
+
+    setUser(user) {
+        this.user = user
+    }
+
 
 }
 

@@ -1,4 +1,3 @@
-let { bookshelf } = require("../../config/database")
 const ModelBase = require("./ModelBase")
 
 

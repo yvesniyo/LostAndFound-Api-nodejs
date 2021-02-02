@@ -1,10 +1,4 @@
-
-const app = require("../Helpers/app");
-const EventDispatcher = require("../Helpers/EventDispatcher");
-
-
 class EventServiceProvider {
-
 
     events = {
         AppEventsUserCreatedEvent: [
@@ -13,25 +7,23 @@ class EventServiceProvider {
         UserUpdatedEvent: []
     }
 
-    eventDispatcher = EventDispatcher
 
-    constructor() {
+    constructor(opts) {
+        this.opts = opts
+        this.eventDispatcher = opts.eventDispatcher
+
     }
-
 
 
     register() {
 
-
         Object.keys(this.events).forEach((eventName, key) => {
-
             this.events[eventName].forEach(listener => {
                 this.eventDispatcher.register(
-                    app(eventName),
-                    app(listener)
+                    this.opts[eventName],
+                    this.opts[listener]
                 )
             })
-
         })
 
 

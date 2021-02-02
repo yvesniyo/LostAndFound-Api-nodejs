@@ -1,10 +1,8 @@
-const EventDispatcher = require("../Helpers/EventDispatcher")
-const UserCreatedEvent = require("../Events/UserCreatedEvent")
-
 class UserObserver {
 
-    constructor() {
-
+    constructor(opts) {
+        this.eventDispatcher = opts.eventDispatcher
+        this.userCreatedEvent = opts.userCreatedEvent
     }
 
     saving(user) {
@@ -22,7 +20,8 @@ class UserObserver {
 
     created(user) {
         console.log("user created in UserObserver")
-        EventDispatcher.dispatch(new UserCreatedEvent(user))
+        this.userCreatedEvent.setUser(user)
+        this.eventDispatcher.dispatch(this.userCreatedEvent)
     }
 
     updated(user) {

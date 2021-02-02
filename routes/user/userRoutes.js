@@ -1,11 +1,28 @@
-const express = require("express")
-const app = require("../../app/Helpers/app")
-const authenticateToken = require("../../app/Http/Middlewares/AuthenticateToken")
-const router = express.Router()
+class UserRoutes {
+
+    constructor({ express, userController, authenticateToken }) {
+        this.router = express.Router()
+        this.userController = userController
+        this.authenticateToken = authenticateToken
+        this.register()
+    }
 
 
-router.get("/all", authenticateToken, (req, res, next) => app("AppHttpControllersUserController").getAllUsers({ req, res, next }))
-router.get("/:id", authenticateToken, (req, res, next) => app("AppHttpControllersUserController").getSingleUser({ req, res, next }))
+    register() {
+        this.router.get("/all",
+            this.authenticateToken,
+            (req, res, next) => this.userController.getAllUsers({ req, res, next }))
+        this.router.get("/:id",
+            this.authenticateToken,
+            (req, res, next) => this.userController.getSingleUser({ req, res, next }))
+    }
+
+    fetch() {
+        return this.router
+    }
+}
 
 
-module.exports = router
+
+
+module.exports = UserRoutes

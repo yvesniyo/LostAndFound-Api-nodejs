@@ -1,10 +1,15 @@
-const generateAccessToken = require("../../Helpers/GenerateToken");
-const resHelper = require("../../Helpers/ResHelper")
-
 class AuthController {
 
-    constructor(opt) {
-        this.authService = opt.authService
+    constructor({
+        authService,
+        generateAccessToken,
+        tokenExpireSeconds,
+        resHelper }) {
+
+        this.authService = authService
+        this.generateAccessToken = generateAccessToken
+        this.tokenExpireSeconds = tokenExpireSeconds
+        this.resHelper = resHelper
     }
 
 
@@ -13,29 +18,31 @@ class AuthController {
         let user
         try {
             user = await this.authService.login({ email, password });
-            const token = generateAccessToken(user.toJSON())
+            const token = this.generateAccessToken(user.toJSON(), this.tokenExpireSeconds)
             if (user) {
-                return resHelper({
-                    res, data: {
+                return this.resHelper({
+                    res,
+                    data: {
                         token,
                         user
-                    }, message: "User successfuly loged in"
+                    },
+                    message: "User successfuly loged in"
                 });
             }
         } catch (error) {
             console.log(error);
         }
-        return resHelper({ res, status: 401, error: "Wrong username/email or password!" });
+        return this.resHelper({ res, status: 401, error: "Wrong username/email or password!" });
     }
 
     async register({ req, res, next }) {
         const { email, name, password, phone, username } = req.query
         const user = await this.authService.signup({ email, name, password, phone, username })
-        return resHelper({ res, data: { user }, message: "Register succcess, wait while we send you email" });
+        return this.resHelper({ res, data: { user }, message: "Register succcess, wait while we send you email" });
     }
 
     me({ req, res, next }) {
-        return resHelper({ data: req.user, res })
+        return this.resHelper({ data: req.user, res })
     }
 }
 

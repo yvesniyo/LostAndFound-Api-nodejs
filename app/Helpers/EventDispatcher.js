@@ -5,10 +5,13 @@ const ListenerBase = require("../Listeners/ListenerBase")
 
 class EventDispatcher {
 
-    static dispatcher = new Concert
+
+    constructor() {
+        this.dispatcher = new Concert
+    }
 
 
-    static register(event, listener) {
+    register(event, listener) {
         if (!(listener instanceof ListenerBase)) {
             throw new Error("Listener must extends the ListenerBase Class")
         }
@@ -20,7 +23,7 @@ class EventDispatcher {
         }
     }
 
-    static dispatch(event) {
+    dispatch(event) {
         if (event instanceof EventBase) {
             // console.log("Dispatching event =", event.constructor.name, event)
             this.dispatcher.trigger(event.constructor.name, event)

@@ -1,15 +1,19 @@
-const Joi = require("joi")
 const Role = require("./Role");
-const UserObserver = require("../Observers/UserObserver");
 const ModelBase = require("./ModelBase");
+
+
 
 class User extends ModelBase {
 
     constructor(params) {
         super(params)
-        this.observer = new UserObserver()
+        const AppContainer = require("../Helpers/app");
+        this.observer = AppContainer("userObserver")
     }
 
+    get require() {
+        return 0;
+    }
     get hidden() {
         return [
             "password"

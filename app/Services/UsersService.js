@@ -23,9 +23,8 @@ class UsersService extends ServiceBase {
     }
 
     async getUserByUsername({ email }) {
-        return await this.userModel.findOne({ email }, { require: true })
+        return await this.userModel.findOne({ email }, { require: false })
     }
-
 
 
     async find(id) {

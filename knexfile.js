@@ -3,7 +3,7 @@ require("./config/app")
 
 module.exports = {
 
-  development: {
+  dev: {
     client: process.env.DATABASE_DRIVE,
     connection: {
       database: process.env.DATABASE_NAME,
@@ -14,7 +14,7 @@ module.exports = {
       directory: "./database/migrations/",
       stub: "./database/migrations/stubs/basic.js"
     },
-    seeders: {
+    seeds: {
       directory: "./database/seeders/",
     }
   },

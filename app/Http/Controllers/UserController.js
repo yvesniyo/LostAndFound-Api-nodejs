@@ -1,18 +1,15 @@
-const app = require("../../Helpers/app");
 const resHelper = require("../../Helpers/ResHelper");
-const User = require("../../Models/User")
-
-
 class UserController {
 
 
-    constructor(opt) {
-        this.usersService = opt.usersService
+    constructor({ usersService, resHelper }) {
+        this.usersService = usersService
+        this.resHelper = resHelper
     }
 
     async getAllUsers({ req, res, next }) {
         const users = await this.usersService.getAllUsers();
-        resHelper({
+        this.resHelper({
             res,
             data: {
                 loggedInUser: req.user,
@@ -23,7 +20,7 @@ class UserController {
 
     async getSingleUser({ req, res, next }) {
         const user = await this.usersService.find(req.params.id);
-        resHelper({
+        this.resHelper({
             res,
             data: {
                 loggedInUser: req.user,
