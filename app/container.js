@@ -71,6 +71,7 @@ AppContainer.register({
 
     usersService: aliasTo("AppServicesUsersService"),
     authService: aliasTo("AppServicesAuthService"),
+    rolesService: aliasTo("AppServicesRolesService"),
 
     userController: aliasTo("AppHttpControllersUserController"),
     authController: aliasTo("AppHttpControllersAuthController"),
