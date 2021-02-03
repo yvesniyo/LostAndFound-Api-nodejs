@@ -1,6 +1,5 @@
 require("./app")
 const Schema = require('bookshelf-schema');
-const advancedSerialization = require('bookshelf-advanced-serialization');
 
 
 // Setting up the database connection
@@ -16,9 +15,14 @@ const knex = require('knex')({
     }
 })
 
+knex.on("error", (error) => {
+    console.log(error)
+})
+
+
 const bookshelf = require('bookshelf')(knex)
 bookshelf.plugin(Schema)
-// bookshelf.plugin(advancedSerialization());
+
 
 module.exports = {
     knex,

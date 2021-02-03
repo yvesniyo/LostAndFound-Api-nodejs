@@ -1,11 +1,16 @@
 const Queue = require('bee-queue');
 const Mailer = require('../Helpers/Mailer');
 
+let SendMailJobQueue;
 
-const SendMailJobQueue = new Queue('sendMailJobQueu');
 
+SendMailJobQueue = new Queue('sendMailJobQueue')
+SendMailJobQueue.on("error", (error) => {
+    console.log(error)
+})
 // Process jobs from as many servers or processes as you like
 SendMailJobQueue.process(async (job, done) => {
+
     console.log(`Processing job ${job.id}`, "Sending email to " + job.data.email);
 
     const mailer = new Mailer({ email: job.data.email, subject: job.data.subject, message: job.data.message })
@@ -17,8 +22,11 @@ SendMailJobQueue.process(async (job, done) => {
 
     return done(null, "Mail sent");
 
-
-
 });
+
+
+
+
+
 
 module.exports = SendMailJobQueue
