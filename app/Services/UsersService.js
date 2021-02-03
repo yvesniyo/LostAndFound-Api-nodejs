@@ -25,6 +25,9 @@ class UsersService extends ServiceBase {
     async getUserByUsername({ email }) {
         return await this.userModel.findOne({ email }, { require: false })
     }
+    async getUserByUsernameAndRole({ email, role_id }) {
+        return await this.userModel.findOne({ email, role_id }, { require: false })
+    }
 
 
     async find(id) {
@@ -32,7 +35,13 @@ class UsersService extends ServiceBase {
     }
 
     async delete(id) {
-        return await this.userModel.destroy({ id });
+        try {
+            return await this.userModel.destroy({ id });
+        } catch (error) {
+            if (error.message == "No Rows Deleted") {
+                return null;
+            }
+        }
     }
 
 }

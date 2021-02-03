@@ -31,7 +31,13 @@ class RolesService extends ServiceBase {
     }
 
     async delete(id) {
-        return await this.roleModel.destroy({ id });
+        try {
+            return await this.roleModel.destroy({ id });
+        } catch (error) {
+            if (error.message == "No Rows Deleted") {
+                return null;
+            }
+        }
     }
 
 

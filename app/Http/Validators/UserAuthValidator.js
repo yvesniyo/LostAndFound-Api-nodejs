@@ -1,19 +1,6 @@
-const { validationResult, buildCheckFunction } = require('express-validator');
+const { buildCheckFunction } = require('express-validator');
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
-
-const runValidations = async (req, res, next, validations, resHelper) => {
-    for (let validation of validations) {
-        const result = await validation.run(req);
-        if (result.errors.length) break;
-    }
-
-    const errors = validationResult(req);
-    if (errors.isEmpty()) {
-        return next();
-    }
-
-    resHelper({ status: 400, error: errors, res });
-}
+const runValidations = require("./runValidations")
 
 const registerValidator = ({ resHelper, usersService }) => {
 

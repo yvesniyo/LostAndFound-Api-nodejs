@@ -5,6 +5,7 @@ class UserController {
     constructor({ usersService, resHelper }) {
         this.usersService = usersService
         this.resHelper = resHelper
+
     }
 
     async getAllUsers({ req, res, next }) {

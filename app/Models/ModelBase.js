@@ -20,6 +20,8 @@ class ModelBase extends BookShelfModelBase.extend({
     initialize() {
 
         try {
+            if (!this.observer) throw new Error("NoModelObserver");
+
             this.on("saving", (user) => this.observer.saving(user));
             this.on("creating", (user) => this.observer.creating(user));
             this.on("created", (user) => this.observer.created(user));
@@ -37,7 +39,7 @@ class ModelBase extends BookShelfModelBase.extend({
             this.on("fetching", (user) => this.observer.fetching(user));
             this.on("fetched", (user) => this.observer.fetched(user));
         } catch (error) {
-            console.error("Observer error ", error)
+            if (error.message != 'NoModelObserver') console.error("Observer error ", error)
         }
 
 

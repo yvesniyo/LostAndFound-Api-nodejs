@@ -8,11 +8,10 @@ class AuthService extends ServiceBase {
         this.usersService = opts.usersService
     }
 
-    async login({ email, password }) {
-        let user = await this.usersService.getUserByUsername({ email });
+    async login({ email, password, role_id }) {
+        let user = await this.usersService.getUserByUsernameAndRole({ email, role_id });
         if (!user)
             return false;
-
         let passwordMatches = await this.bcrypt.compareHashToPlain({
             plain: password,
             hash: user.get("password")
@@ -24,8 +23,7 @@ class AuthService extends ServiceBase {
         return false
     }
 
-    async signup({ email, name, password, phone, username }) {
-        const role_id = 1
+    async signup({ email, name, password, phone, username, role_id }) {
         return await this.usersService.create({ email, name, password, phone, username, role_id });
     }
 

@@ -1,4 +1,5 @@
 const AppContainer = require('./app/Helpers/app');
+const Config = require('./app/Helpers/Config');
 const resHelper = require('./app/Helpers/ResHelper');
 
 class MyApp {

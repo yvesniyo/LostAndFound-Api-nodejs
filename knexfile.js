@@ -3,7 +3,7 @@ require("./config/app")
 
 module.exports = {
 
-  dev: {
+  development: {
     client: process.env.DATABASE_DRIVE,
     connection: {
       database: process.env.DATABASE_NAME,
