@@ -1,7 +1,5 @@
 {
-    "Hello": "Hello world",
-    "You have %s message": {
-        "one": "You have %s message",
-        "other": "You have %s messages"
-    }
+	"Hello": "Hello world",
+	"Gender must be either M or F": "Gender must be either M or F",
+	"User successfuly loged in": "User successfuly logged in"
 }

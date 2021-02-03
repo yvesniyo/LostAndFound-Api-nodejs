@@ -23,6 +23,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const allRoutesLib = require('express-list-endpoints');
 const dotenv = require('dotenv');
+const moment = require("moment");
 const generateAccessToken = require('./Helpers/GenerateToken');
 const UserCreatedEvent = require('./Events/UserCreatedEvent');
 const AdminAuthRouter = require('../routes/admin/AdminAuthRouter');
@@ -138,6 +139,7 @@ AppContainer.register({
     dotenv: asValue(dotenv),
     logger: asValue(logger),
     allRoutesLib: asValue(allRoutesLib),
+    moment: asValue(moment),
 })
 
 
@@ -184,7 +186,8 @@ AppContainer.register({
 
 AppContainer
     .register({
-        localeService: asClass(LocaleService, { lifetime: Lifetime.SINGLETON })
+        localeService: asClass(LocaleService, { lifetime: Lifetime.SINGLETON }),
+        locale: aliasTo("localeService")
     })
     .register({
         i18nProvider: asValue(i18n)

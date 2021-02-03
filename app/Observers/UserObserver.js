@@ -19,7 +19,6 @@ class UserObserver {
     }
 
     created(user) {
-        console.log("user created in UserObserver")
         this.userCreatedEvent.setUser(user)
         this.eventDispatcher.dispatch(this.userCreatedEvent)
     }

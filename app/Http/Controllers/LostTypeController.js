@@ -1,8 +1,9 @@
 class LostTypeController {
 
-    constructor({ lostTypeService, resHelper }) {
+    constructor({ lostTypeService, resHelper, locale }) {
         this.lostTypeService = lostTypeService
         this.resHelper = resHelper
+        this.locale = locale
     }
 
     async index({ req, res, next }) {
@@ -25,10 +26,10 @@ class LostTypeController {
     async update({ req, res, next }) {
         const { name, description } = req.body
         const lostType = await this.lostTypeService.getLostTypeByName({ name })
-        if (!lostType) return this.resHelper({ res, status: 404, error: "Item not found" })
+        if (!lostType) return this.resHelper({ res, status: 404, error: this.locale.translate("Item not found") })
         if (lostType.get('id') != req.params.id) return this.resHelper({
             res, status: 400,
-            error: "There is an existing type with name"
+            error: this.locale.translate("There is an existing type with name")
         })
         this.resHelper({ res, data: (await this.lostTypeService.update({ name, description }, req.params.id)) })
     }

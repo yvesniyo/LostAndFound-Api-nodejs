@@ -2,7 +2,7 @@ const { buildCheckFunction } = require('express-validator');
 const checkBodyAndQuery = buildCheckFunction(['body', 'query']);
 const runValidations = require("./runValidations")
 
-const registerValidator = ({ resHelper, usersService }) => {
+const registerValidator = ({ resHelper, usersService, locale }) => {
 
     let validations = [
         checkBodyAndQuery("email").isEmail().custom((email) => {
@@ -11,7 +11,7 @@ const registerValidator = ({ resHelper, usersService }) => {
                 if (!userEmail) {
                     return resolve(true)
                 }
-                return reject("Email is in use")
+                return reject(locale.translate("Email is in use"))
             })
 
         }),

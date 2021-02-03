@@ -4,12 +4,13 @@ class AuthController {
         authService,
         generateAccessToken,
         tokenExpireSeconds,
-        resHelper }) {
+        resHelper, locale }) {
 
         this.authService = authService
         this.generateAccessToken = generateAccessToken
         this.tokenExpireSeconds = tokenExpireSeconds
         this.resHelper = resHelper
+        this.locale = locale
     }
 
 
@@ -19,13 +20,13 @@ class AuthController {
         if (req.loginAsAdmin) role_id = 1
         try {
             const user = await this.authService.login({ email, password, role_id });
-            if (!user) return this.resHelper({ res, status: 401, error: "Wrong username/email or password!" });
+            if (!user) return this.resHelper({ res, status: 401, error: this.locale.translate("Wrong username/email or password!") });
             const token = this.generateAccessToken(user.toJSON(), this.tokenExpireSeconds)
-            if (user) return this.resHelper({ res, data: { token, user }, message: "User successfuly loged in" })
+            if (user) return this.resHelper({ res, data: { token, user }, message: this.locale.translate("User successfuly loged in") })
         } catch (error) {
             return this.resHelper({ res, status: 500, error: error.message });
         }
-        return this.resHelper({ res, status: 401, error: "Wrong username/email or password!" });
+        return this.resHelper({ res, status: 401, error: this.locale.translate("Wrong username/email or password!") });
     }
 
     async loginAdmin({ req, res, next }) {
@@ -38,7 +39,7 @@ class AuthController {
         let role_id = 3
         if (req.registerAsAdmin) role_id = 1
         const user = await this.authService.signup({ email, name, password, phone, username, role_id })
-        return this.resHelper({ res, data: { user }, message: "Register succcess, wait while we send you email" });
+        return this.resHelper({ res, data: { user }, message: this.locale.translate("Register succcess, wait while we send you email") });
     }
 
     async registerAdmin({ req, res, next }) {
