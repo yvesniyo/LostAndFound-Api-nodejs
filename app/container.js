@@ -29,6 +29,8 @@ const AdminAuthRouter = require('../routes/admin/AdminAuthRouter');
 const AdminRouter = require('../routes/admin/AdminRouter');
 const LostTypeRouter = require('../routes/admin/LostTypeRouter');
 const LostItemRouter = require('../routes/admin/LostItemRouter');
+const LocaleService = require('./Services/LocaleService');
+const i18n = require('../config/i18n.config');
 
 
 const AppContainer = createContainer({
@@ -179,6 +181,15 @@ AppContainer.register({
 AppContainer.register({
     tokenExpireSeconds: asValue(process.env.TOKEN_EXPIRE_SECONDS || 86400),
 })
+
+AppContainer
+    .register({
+        localeService: asClass(LocaleService, { lifetime: Lifetime.SINGLETON })
+    })
+    .register({
+        i18nProvider: asValue(i18n)
+    });
+
 
 
 module.exports = AppContainer

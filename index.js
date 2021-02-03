@@ -70,5 +70,4 @@ class MyApp {
 
 const app = new MyApp()
 
-
 module.exports = app.getApp();
