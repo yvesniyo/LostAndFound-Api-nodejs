@@ -5,7 +5,6 @@ class LostType extends ModelBase {
 
     constructor(params) {
         super(params)
-        console.log("params ", params)
         this.observer = null
     }
 
