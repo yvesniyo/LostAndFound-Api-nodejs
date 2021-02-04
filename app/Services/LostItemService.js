@@ -1,11 +1,13 @@
+const { knex } = require("../../config/database");
 const ServiceBase = require("./ServiceBase");
 
 class LostItemService extends ServiceBase {
 
     constructor(opts) {
         super(opts)
-        const { lostItemModel } = opts
+        const { lostItemModel, moment } = opts
         this.lostItemModel = lostItemModel
+        this.moment = moment
     }
 
     async getLostItems() {
@@ -59,6 +61,22 @@ class LostItemService extends ServiceBase {
                 return null;
             }
         }
+    }
+
+    async totalLostItems() {
+        return await this.lostItemModel.count()
+    }
+
+    async monthlyLostItems(year = null) {
+        if (!year) year = this.moment().year()
+        const items = await this.lostItemModel
+            .where(knex.raw("YEAR(created_at) = ?", [year]))
+            .query((q) => {
+                q.groupBy(knex.raw("MONTH(created_at)"))
+                q.select(knex.raw("count(*) as items_count, MONTH(created_at) as month"))
+            })
+            .fetchAll()
+        return items;
     }
 
 }

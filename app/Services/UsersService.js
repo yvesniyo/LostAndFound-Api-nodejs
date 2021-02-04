@@ -1,3 +1,4 @@
+const { knex } = require("../../config/database");
 const ServiceBase = require("./ServiceBase");
 
 class UsersService extends ServiceBase {
@@ -47,20 +48,21 @@ class UsersService extends ServiceBase {
 
 
 
-    async groupUsersByMonth(year = null) {
+    async totalUsers() {
+        return await this.userModel.count()
+    }
+
+    async monthlyUsers(year = null) {
         if (!year) year = this.moment().year()
 
-        const startofYear = this.moment()
-            .year(year).startOf("year")
-            .format("YYYY-MM-DD")
-        const endofYear = this.moment()
-            .year(year).endOf("year")
-            .format("YYYY-MM-DD")
-
         const users = await this.userModel.forge()
-            .where("created_at", ">=", startofYear)
-            .where("created_at", "<=", endofYear)
-            .fetch()
+            .where(knex.raw("YEAR(created_at) = ?", [year]))
+            .query((q) => {
+                q.select(knex.raw("count(*) as total_users, MONTH(created_at) as month"))
+                q.groupBy(knex.raw("MONTH(created_at)"))
+            })
+            .fetchAll()
+        return users
     }
 
 }

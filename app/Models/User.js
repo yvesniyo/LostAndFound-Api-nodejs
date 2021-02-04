@@ -1,5 +1,5 @@
-const Role = require("./Role");
 const ModelBase = require("./ModelBase");
+const { bookshelf } = require("../../config/database");
 
 
 
@@ -37,12 +37,13 @@ class User extends ModelBase {
 
 
 
+
     getName() {
         return this.get("name")
     }
 
     role() {
-        return this.belongsTo(Role)
+        return this.belongsTo("Role")
     }
 
 }
@@ -51,4 +52,4 @@ class User extends ModelBase {
 
 
 
-module.exports = User
+module.exports = bookshelf.model("User", User)

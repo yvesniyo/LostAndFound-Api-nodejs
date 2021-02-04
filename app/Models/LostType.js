@@ -1,3 +1,4 @@
+const { bookshelf } = require("../../config/database");
 const ModelBase = require("./ModelBase")
 
 
@@ -10,6 +11,10 @@ class LostType extends ModelBase {
 
     get requireFetch() {
         return false;
+    }
+
+    lostItems() {
+        return this.hasMany("LostItem", "lost_type")
     }
 
 
@@ -33,4 +38,4 @@ class LostType extends ModelBase {
 }
 
 
-module.exports = LostType
+module.exports = bookshelf.model("LostType", LostType)
