@@ -32,6 +32,8 @@ const LostTypeRouter = require('../routes/admin/LostTypeRouter');
 const LostItemRouter = require('../routes/admin/LostItemRouter');
 const LocaleService = require('./Services/LocaleService');
 const i18n = require('../config/i18n.config');
+const DashboardRouter = require('../routes/admin/DashboardRouter');
+const MyApp = require('..');
 
 
 const AppContainer = createContainer({
@@ -108,6 +110,7 @@ AppContainer.register({
     authController: aliasTo("AppHttpControllersAuthController"),
     lostItemController: aliasTo("AppHttpControllersLostItemController"),
     lostTypeController: aliasTo("AppHttpControllersLostTypeController"),
+    dashboardController: aliasTo("AppHttpControllersDashboardController"),
 })
 
 
@@ -155,6 +158,7 @@ AppContainer.register({
     lostTypeRouter: asClass(LostTypeRouter),
     lostItemRouter: asClass(LostItemRouter),
     adminAuthRouter: asClass(AdminAuthRouter),
+    dashboardRouter: asClass(DashboardRouter),
 });
 
 //register middleware
@@ -181,6 +185,7 @@ AppContainer.register({
 
 //register uncategorized 
 AppContainer.register({
+    myApp: asClass(MyApp),
     tokenExpireSeconds: asValue(process.env.TOKEN_EXPIRE_SECONDS || 86400),
 })
 

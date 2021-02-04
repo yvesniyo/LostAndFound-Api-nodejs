@@ -7,7 +7,8 @@ class LostTypeController {
     }
 
     async index({ req, res, next }) {
-        this.resHelper({ res, data: (await this.lostTypeService.getLostTypes()) })
+        const data = (await this.lostTypeService.getLostTypes())
+        this.resHelper({ res, data })
     }
 
     async show({ req, res, next }) {

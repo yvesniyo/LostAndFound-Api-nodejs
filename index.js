@@ -1,19 +1,26 @@
-const AppContainer = require('./app/Helpers/app');
-const Config = require('./app/Helpers/Config');
-const resHelper = require('./app/Helpers/ResHelper');
-
 class MyApp {
 
-    constructor() {
+    constructor({ express, dotenv, allRoutesLib, cors, logger, cookieParser, eventServiceProvider, mainRouter, resHelper }) {
+
+        this.dotenv = dotenv
+        this.allRoutesLib = allRoutesLib
+        this.cors = cors
+        this.logger = logger
+        this.cookieParser = cookieParser
+        this.eventServiceProvider = eventServiceProvider
+        this.mainRouter = mainRouter
+        this.resHelper = resHelper
+
         this.initEnvVariables()
         this.APP_DEBUG = eval(process.env.APP_DEBUG)
-        this.express = AppContainer("express")
+        this.APP_ENV = process.env.APP_ENV
+        this.express = express
         this.expressApp = this.express()
         this.initMyApp()
     }
 
     initEnvVariables() {
-        AppContainer("dotenv").config()
+        this.dotenv.config()
     }
 
     initMyApp() {
@@ -25,30 +32,30 @@ class MyApp {
     }
 
     attachConsoleDebug() {
-        if (this.APP_DEBUG == false)
-            console.log(AppContainer("allRoutesLib")(this.expressApp));
+        if (this.APP_DEBUG == true)
+            console.log(this.allRoutesLib(this.expressApp));
     }
 
     registerMiddlewares() {
-        this.expressApp.use(AppContainer("cors"));
-        this.expressApp.use(AppContainer("logger")(process.env.APP_ENV));
+        this.expressApp.use(this.cors);
+        this.expressApp.use(this.logger(this.APP_ENV));
         this.expressApp.use(this.express.json());
         this.expressApp.use(this.express.urlencoded({ extended: false }));
-        this.expressApp.use(AppContainer("cookieParser")());
+        this.expressApp.use(this.cookieParser());
     }
 
     initializeServiceProviders() {
-        AppContainer("eventServiceProvider").register()
+        this.eventServiceProvider.register()
     }
 
     attachMainRoute() {
-        this.expressApp.use('/', AppContainer("mainRouter").fetch());
+        this.expressApp.use('/', this.mainRouter.fetch());
     }
 
     catchHttpErrors() {
         // Error 404
         this.expressApp.use((req, res, next) => {
-            resHelper({ res, status: 404, error: "Page Not Found" })
+            this.resHelper({ res, status: 404, error: "Page Not Found" })
         });
         // Unknown error
         this.expressApp.use((err, req, res, next) => {
@@ -59,7 +66,7 @@ class MyApp {
                     console.log(error)
                 })
             }
-            resHelper({ res, status: err.status || 500, error: err.error })
+            this.resHelper({ res, status: err.status || 500, error: err.error })
         });
     }
 
@@ -68,6 +75,5 @@ class MyApp {
     }
 }
 
-const app = new MyApp()
 
-module.exports = app.getApp();
+module.exports = MyApp;

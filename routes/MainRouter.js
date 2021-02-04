@@ -9,7 +9,7 @@ class MainRouter {
     }
 
     register() {
-        this.router.use("/api", this.apiRouter)
+        this.router.use("/api/v1", this.apiRouter)
         this.router.use("/", this.webRouter)
     }
 

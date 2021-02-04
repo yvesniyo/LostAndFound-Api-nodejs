@@ -7,6 +7,7 @@ class UsersService extends ServiceBase {
         super(opts)
         this.userModel = opts.userModel
         this.bcrypt = opts.bcrypt
+        this.moment = opts.moment
     }
 
     async getAllUsers() {
@@ -42,6 +43,13 @@ class UsersService extends ServiceBase {
                 return null;
             }
         }
+    }
+
+
+
+    async groupUsersByMonth({ year = null }) {
+        if (!year) year = this.moment.year()
+        console.log(year)
     }
 
 }

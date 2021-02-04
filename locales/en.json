@@ -1,5 +1,6 @@
 {
 	"Hello": "Hello world",
 	"Gender must be either M or F": "Gender must be either M or F",
-	"User successfuly loged in": "User successfuly logged in"
+	"User successfuly loged in": "User successfuly logged in",
+	"Unauthorized Request": "Unauthorized Request"
 }
