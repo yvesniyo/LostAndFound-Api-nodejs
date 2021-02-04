@@ -47,9 +47,20 @@ class UsersService extends ServiceBase {
 
 
 
-    async groupUsersByMonth({ year = null }) {
-        if (!year) year = this.moment.year()
-        console.log(year)
+    async groupUsersByMonth(year = null) {
+        if (!year) year = this.moment().year()
+
+        const startofYear = this.moment()
+            .year(year).startOf("year")
+            .format("YYYY-MM-DD")
+        const endofYear = this.moment()
+            .year(year).endOf("year")
+            .format("YYYY-MM-DD")
+
+        const users = await this.userModel.forge()
+            .where("created_at", ">=", startofYear)
+            .where("created_at", "<=", endofYear)
+            .fetch()
     }
 
 }

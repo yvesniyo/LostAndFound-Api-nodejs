@@ -12,11 +12,12 @@ class DashboardController {
     }
 
     async monitor({ req, res, next }) {
-
+        this.normalUsersChart()
+        res.send("hello world")
     }
 
 
-    async normalUsersChart({ req, res, next }) {
+    async normalUsersChart() {
         const users = this.usersService.groupUsersByMonth();
     }
 

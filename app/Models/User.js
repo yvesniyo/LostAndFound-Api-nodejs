@@ -11,9 +11,11 @@ class User extends ModelBase {
         this.observer = AppContainer("userObserver")
     }
 
-    get require() {
-        return 0;
+
+    get requireFetch() {
+        return false;
     }
+
     get hidden() {
         return [
             "password"

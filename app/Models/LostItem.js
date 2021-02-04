@@ -9,6 +9,11 @@ class LostItem extends ModelBase {
     }
 
 
+    get requireFetch() {
+        return false;
+    }
+
+
     get tableName() {
         return "lost_items"
     }

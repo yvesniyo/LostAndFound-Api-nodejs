@@ -7,7 +7,8 @@ class DashboardRouter {
     }
 
     register() {
-        this.router.get("/", ({ req, res, next }) => this.dashboardController.monitor())
+        this.router.get("/",
+            ({ req, res, next }) => this.dashboardController.monitor({ req, res, next }))
     }
 
 

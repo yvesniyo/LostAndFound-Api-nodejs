@@ -8,6 +8,10 @@ class LostType extends ModelBase {
         this.observer = null
     }
 
+    get requireFetch() {
+        return false;
+    }
+
 
     get hidden() {
         return []
