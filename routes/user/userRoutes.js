@@ -1,20 +1,20 @@
 class UserRoutes {
 
-    constructor({ express, userController }) {
+    constructor({ express, userController, userItemRouter }) {
         this.router = express.Router()
         this.userController = userController
+        this.userItemRouter = userItemRouter.fetch()
         this.register()
     }
 
 
     register() {
-        this.router.get("/all",
-            (req, res, next) => this.userController.getAllUsers({ req, res, next }))
-        this.router.get("/:id",
-            (req, res, next) => this.userController.getSingleUser({ req, res, next }))
+
+        this.router.use("/userItem", this.userItemRouter)
     }
 
     fetch() {
+
         return this.router
     }
 }

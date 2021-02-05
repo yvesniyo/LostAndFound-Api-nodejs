@@ -2,8 +2,10 @@
 
 class ApiRouter {
 
-    constructor({ express, authenticateNormalUser, authenticateAdmin, authRouter, adminAuthRouter, adminRouter, userRouter, resHelper }) {
-
+    constructor({ express, authenticateNormalUser,
+        authenticateAdmin, authRouter, adminAuthRouter,
+        adminRouter, userRouter, guestRouter,
+        resHelper }) {
         this.router = express.Router()
         this.authRouter = authRouter.fetch()
         this.userRouter = userRouter.fetch()
@@ -12,8 +14,7 @@ class ApiRouter {
         this.resHelper = resHelper
         this.authenticateNormalUser = authenticateNormalUser
         this.authenticateAdmin = authenticateAdmin
-
-
+        this.guestRouter = guestRouter.fetch()
         this.register()
     }
 
@@ -36,6 +37,9 @@ class ApiRouter {
         //user routes
         this.router.use("/user", this.authenticateNormalUser)
         this.router.use("/user", this.userRouter)
+
+        //guest router 
+        this.router.use("/guest", this.guestRouter)
     }
 
 

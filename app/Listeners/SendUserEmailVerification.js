@@ -14,7 +14,10 @@ class SendUserEmailVerification extends ListenerBase {
 
         const email = user.get("email")
         const subject = "Email verifaction on " + process.env.APP_NAME
-        const message = `Hi ${user.get("name")}, we would like you to verify that this email belong to you`;
+        const message = this.locale.translate("mail.confirmationEmail", {
+            name: user.get("name"),
+            email: email,
+        });
 
 
         const job = SendMailJob.createJob({ email, subject, message });

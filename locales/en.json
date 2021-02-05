@@ -2,5 +2,7 @@
 	"Hello": "Hello world",
 	"Gender must be either M or F": "Gender must be either M or F",
 	"User successfuly loged in": "User successfuly logged in",
-	"Unauthorized Request": "Unauthorized Request"
+	"Unauthorized Request": "Unauthorized Request",
+	"mail.confirmationEmail": "Hi {{name}}, we would like you to verify that this {{email}} belong to you",
+	"mail.lostItemFound": "Hi {{name}}, we would like you to you that one of your lost item has been submmited with this card no {{card_no}} at this time {{time_found}}"
 }

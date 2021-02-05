@@ -19,11 +19,14 @@ class DashboardController {
         const monthlyUsers = await this.usersService.monthlyUsers()
         const totalLostItems = await this.lostItemService.totalLostItems()
         const monthlyLostItems = await this.lostItemService.monthlyLostItems()
+        const yearLostItemsByType = await this.lostItemService.yearLostItemsByType()
 
         return this.resHelper({
-            res, data: {
+            res,
+            data: {
                 totalUsers,
                 totalLostItems,
+                yearLostItemsByType,
                 monthlyLostItems,
                 monthlyUsers
             }

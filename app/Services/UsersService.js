@@ -11,8 +11,12 @@ class UsersService extends ServiceBase {
         this.moment = opts.moment
     }
 
-    async getAllUsers() {
-        return await this.userModel.findAll()
+    async getAllUsers({ limit, page }) {
+        const items = await this.userModel.forge().fetchPage({
+            pageSize: limit,
+            page
+        });
+        return { limit, page, items };
     }
 
     async create({ email, name, password, phone, username, role_id }) {

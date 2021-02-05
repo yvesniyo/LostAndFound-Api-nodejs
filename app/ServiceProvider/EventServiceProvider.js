@@ -4,6 +4,9 @@ class EventServiceProvider {
         AppEventsUserCreatedEvent: [
             "AppListenersSendUserEmailVerification"
         ],
+        AppEventsLostItemCreatedEvent: [
+            "AppListenersNotifyUsersWhoLostItemListener"
+        ],
         UserUpdatedEvent: []
     }
 

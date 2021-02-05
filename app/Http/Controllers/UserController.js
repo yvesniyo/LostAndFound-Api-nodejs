@@ -8,7 +8,8 @@ class UserController {
     }
 
     async getAllUsers({ req, res, next }) {
-        const users = await this.usersService.getAllUsers();
+        const { limit, page } = req.query
+        const users = await this.usersService.getAllUsers({ limit, page });
         this.resHelper({
             res,
             data: {

@@ -6,6 +6,7 @@ const Hashr = require('./Helpers/Hashr');
 const { registerValidator, loginValidator } = require("./Http/Validators/UserAuthValidator")
 const { lostItemCreateValidator, lostItemUpdateValidator } = require('./Http/Validators/LostItemValidator');
 const { lostTypeCreateValidator, lostTypeUpdateValidator } = require("./Http/Validators/LostTypeValidator")
+const { userItemCreateValidator, userItemUpdateValidator } = require("./Http/Validators/UserItemValidator")
 const express = require("express")
 const router = express.Router()
 const jwt = require("jsonwebtoken");
@@ -24,6 +25,7 @@ const logger = require('morgan');
 const allRoutesLib = require('express-list-endpoints');
 const dotenv = require('dotenv');
 const moment = require("moment");
+const paginate = require('express-paginate');
 const generateAccessToken = require('./Helpers/GenerateToken');
 const UserCreatedEvent = require('./Events/UserCreatedEvent');
 const AdminAuthRouter = require('../routes/admin/AdminAuthRouter');
@@ -34,6 +36,8 @@ const LocaleService = require('./Services/LocaleService');
 const i18n = require('../config/i18n.config');
 const DashboardRouter = require('../routes/admin/DashboardRouter');
 const MyApp = require('..');
+const GuestRouter = require('../routes/guest/GuestRouter');
+const UserItemRouter = require('../routes/user/UserItemRouter');
 
 
 const AppContainer = createContainer({
@@ -51,7 +55,11 @@ AppContainer.loadModules([
     'app/ServiceProvider/*.js',
     'app/Events/*.js',
     'app/Helpers/*.js',
-    'app/Listeners/*.js',
+    [
+        'app/Listeners/*.js', {
+            register: asClass
+        }
+    ],
     [
         'app/Http/Middlewares/*.js',
         {
@@ -88,10 +96,12 @@ AppContainer.loadModules([
 //register modals
 AppContainer.register({
     userObserver: aliasTo("AppObserversUserObserver"),
+    lostItemObserver: aliasTo("AppObserversLostItemObserver"),
     roleModel: aliasTo("AppModelsRole"),
     userModel: aliasTo("AppModelsUser"),
     lostTypeModel: aliasTo("AppModelsLostType"),
     lostItemModel: aliasTo("AppModelsLostItem"),
+    userItemModel: aliasTo("AppModelsUserItem"),
 })
 
 // register services
@@ -101,6 +111,7 @@ AppContainer.register({
     rolesService: aliasTo("AppServicesRolesService"),
     lostTypeService: aliasTo("AppServicesLostTypeService"),
     lostItemService: aliasTo("AppServicesLostItemService"),
+    userItemService: aliasTo("AppServicesUserItemService")
 })
 
 
@@ -111,6 +122,7 @@ AppContainer.register({
     lostItemController: aliasTo("AppHttpControllersLostItemController"),
     lostTypeController: aliasTo("AppHttpControllersLostTypeController"),
     dashboardController: aliasTo("AppHttpControllersDashboardController"),
+    userItemController: aliasTo("AppHttpControllersUserItemController"),
 })
 
 
@@ -118,6 +130,7 @@ AppContainer.register({
 AppContainer.register({
     AppEventsUserCreatedEvent: asClass(UserCreatedEvent),
     userCreatedEvent: aliasTo("AppEventsUserCreatedEvent"),
+    lostItemCreatedEvent: aliasTo("AppEventsLostItemCreatedEvent")
 })
 
 
@@ -128,7 +141,9 @@ AppContainer.register({
     lostTypeUpdateValidator: asFunction(lostTypeUpdateValidator),
     lostTypeCreateValidator: asFunction(lostTypeCreateValidator),
     lostItemUpdateValidator: asFunction(lostItemUpdateValidator),
-    lostItemCreateValidator: asFunction(lostItemCreateValidator)
+    lostItemCreateValidator: asFunction(lostItemCreateValidator),
+    userItemUpdateValidator: asFunction(userItemUpdateValidator),
+    userItemCreateValidator: asFunction(userItemCreateValidator),
 })
 
 
@@ -143,6 +158,7 @@ AppContainer.register({
     logger: asValue(logger),
     allRoutesLib: asValue(allRoutesLib),
     moment: asValue(moment),
+    paginate: asValue(paginate),
 })
 
 
@@ -159,6 +175,8 @@ AppContainer.register({
     lostItemRouter: asClass(LostItemRouter),
     adminAuthRouter: asClass(AdminAuthRouter),
     dashboardRouter: asClass(DashboardRouter),
+    guestRouter: asClass(GuestRouter),
+    userItemRouter: asClass(UserItemRouter)
 });
 
 //register middleware
@@ -187,6 +205,7 @@ AppContainer.register({
 AppContainer.register({
     myApp: asClass(MyApp),
     tokenExpireSeconds: asValue(process.env.TOKEN_EXPIRE_SECONDS || 86400),
+    searchLimit: asValue(10),
 })
 
 AppContainer

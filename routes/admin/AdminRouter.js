@@ -21,6 +21,11 @@ class AdminRouter {
         this.router.use("/lostType", this.lostTypeRouter)
         this.router.use("/lostItem", this.lostItemRouter)
 
+        this.router.get("/user/all",
+            (req, res, next) => this.userController.getAllUsers({ req, res, next }))
+        this.router.get("/user/:id",
+            (req, res, next) => this.userController.getSingleUser({ req, res, next }))
+
     }
 
     fetch() {

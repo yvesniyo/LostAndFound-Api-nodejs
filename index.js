@@ -1,6 +1,8 @@
 class MyApp {
 
-    constructor({ express, dotenv, allRoutesLib, cors, logger, cookieParser, eventServiceProvider, mainRouter, resHelper }) {
+    constructor({ express, dotenv, allRoutesLib, cors, logger,
+        cookieParser, eventServiceProvider, mainRouter, resHelper,
+        paginate }) {
 
         this.dotenv = dotenv
         this.allRoutesLib = allRoutesLib
@@ -10,6 +12,7 @@ class MyApp {
         this.eventServiceProvider = eventServiceProvider
         this.mainRouter = mainRouter
         this.resHelper = resHelper
+        this.paginate = paginate
 
         this.initEnvVariables()
         this.APP_DEBUG = eval(process.env.APP_DEBUG)
@@ -32,7 +35,7 @@ class MyApp {
     }
 
     attachConsoleDebug() {
-        if (this.APP_DEBUG == true)
+        if (this.APP_DEBUG == false)
             console.log(this.allRoutesLib(this.expressApp));
     }
 
@@ -42,6 +45,11 @@ class MyApp {
         this.expressApp.use(this.express.json());
         this.expressApp.use(this.express.urlencoded({ extended: false }));
         this.expressApp.use(this.cookieParser());
+        this.expressApp.use(this.paginate.middleware(10, 50))
+        this.expressApp.all(function (req, res, next) {
+            if (req.query.limit <= 10) req.query.limit = 10;
+            next();
+        })
     }
 
     initializeServiceProviders() {

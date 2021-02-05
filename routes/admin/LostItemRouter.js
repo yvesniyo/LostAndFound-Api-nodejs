@@ -16,27 +16,18 @@ class LostItemRouter {
     }
 
     register() {
-        this.router.get(
-            "/",
-            (req, res, next) => this.lostItemController.index({ req, res, next }))
 
+        this.router.route("/")
+            .get((req, res, next) => this.lostItemController.index({ req, res, next }))
+            .post(this.lostItemCreateValidator,
+                (req, res, next) => this.lostItemController.store({ req, res, next }))
 
         this.router.route("/:id")
-            .get(
-                (req, res, next) => this.lostItemController.show({ req, res, next })
-            )
-            .put(
-                this.lostItemUpdateValidator,
-                (req, res, next) => this.lostItemController.update({ req, res, next })
-            )
-            .delete(
-                (req, res, next) => this.lostItemController.delete({ req, res, next })
-            )
+            .get((req, res, next) => this.lostItemController.show({ req, res, next }))
+            .put(this.lostItemUpdateValidator,
+                (req, res, next) => this.lostItemController.update({ req, res, next }))
+            .delete((req, res, next) => this.lostItemController.delete({ req, res, next }))
 
-        this.router.post(
-            "/store",
-            this.lostItemCreateValidator,
-            (req, res, next) => this.lostItemController.store({ req, res, next }))
     }
 
     fetch() {

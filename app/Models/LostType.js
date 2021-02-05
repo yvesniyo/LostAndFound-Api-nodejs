@@ -7,6 +7,8 @@ class LostType extends ModelBase {
     constructor(params) {
         super(params)
         this.observer = null
+        const AppContainer = require("../Helpers/app");
+        this.observer = AppContainer("lostItemObserver")
     }
 
     get requireFetch() {
@@ -15,6 +17,10 @@ class LostType extends ModelBase {
 
     lostItems() {
         return this.hasMany("LostItem", "lost_type")
+    }
+
+    userItems() {
+        return this.hasMany("UserItem")
     }
 
 
