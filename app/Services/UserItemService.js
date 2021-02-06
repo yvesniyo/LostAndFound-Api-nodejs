@@ -10,12 +10,12 @@ class UserItemService {
     }
 
     async create({ lost_type_id, user_id, card_no, holder_name }) {
-        return await this.userItemModel.create({ lost_type_id, user_id, card_no, holder_name })
+        return await this.userItemModel.findOrCreate({ lost_type_id, user_id, card_no, holder_name })
     }
 
 
     async find(id) {
-        return await this.userItemModel.findById(id)
+        return await this.userItemModel.findById(id, { require: false })
     }
 
     async update(datas, id) {

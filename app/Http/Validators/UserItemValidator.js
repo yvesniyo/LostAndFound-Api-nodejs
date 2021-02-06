@@ -12,8 +12,8 @@ const userItemCreateValidator = ({ resHelper, userItemService, moment, locale })
                 return resolve(true)
             })
         }),
-        checkBodyAndQuery("holder_name").isString(),
-        checkBodyAndQuery("card_no").isString(),
+        checkBodyAndQuery("holder_name").isString().isLength({ min: 5 }),
+        checkBodyAndQuery("card_no").isString().isLength({ min: 10 })
     ]
     return async (req, res, next) => runValidations(req, res, next, validations, resHelper)
 }
@@ -27,8 +27,8 @@ const userItemUpdateValidator = ({ resHelper, userItemService, moment, locale })
                 return resolve(true)
             })
         }),
-        checkBodyAndQuery("holder_name").isString(),
-        checkBodyAndQuery("card_no").isString(),
+        checkBodyAndQuery("holder_name").isString().isLength({ min: 5 }),
+        checkBodyAndQuery("card_no").isString().isLength({ min: 10 })
     ]
     return async (req, res, next) => runValidations(req, res, next, validations, resHelper)
 }

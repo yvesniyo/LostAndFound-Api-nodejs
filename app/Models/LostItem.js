@@ -13,6 +13,10 @@ class LostItem extends ModelBase {
         return this.belongsTo("LostType", "lost_type")
     }
 
+    images() {
+        return this.hasMany("LostItemImage")
+    }
+
 
     get requireFetch() {
         return false;

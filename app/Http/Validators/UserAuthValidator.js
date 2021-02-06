@@ -21,7 +21,7 @@ const registerValidator = ({ resHelper, usersService, locale }) => {
         checkBodyAndQuery("password").isString(),
         checkBodyAndQuery("phone").isString().isMobilePhone(),
         checkBodyAndQuery("confirm_password").isString().custom((value, { req }) => {
-            if (value !== req.query.password) {
+            if (value !== req.body.password) {
                 return Promise.reject('Password confirmation does not match password');
             }
             return true;

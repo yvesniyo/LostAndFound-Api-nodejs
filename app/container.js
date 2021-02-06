@@ -102,6 +102,7 @@ AppContainer.register({
     lostTypeModel: aliasTo("AppModelsLostType"),
     lostItemModel: aliasTo("AppModelsLostItem"),
     userItemModel: aliasTo("AppModelsUserItem"),
+    lostItemImageModel: aliasTo("AppModelsLostItemImage")
 })
 
 // register services
@@ -111,7 +112,8 @@ AppContainer.register({
     rolesService: aliasTo("AppServicesRolesService"),
     lostTypeService: aliasTo("AppServicesLostTypeService"),
     lostItemService: aliasTo("AppServicesLostItemService"),
-    userItemService: aliasTo("AppServicesUserItemService")
+    userItemService: aliasTo("AppServicesUserItemService"),
+    lostItemImageService: aliasTo("AppServicesLostItemImageService")
 })
 
 
@@ -123,6 +125,7 @@ AppContainer.register({
     lostTypeController: aliasTo("AppHttpControllersLostTypeController"),
     dashboardController: aliasTo("AppHttpControllersDashboardController"),
     userItemController: aliasTo("AppHttpControllersUserItemController"),
+    lostItemImageController: aliasTo("AppHttpControllersLostItemImageController"),
 })
 
 

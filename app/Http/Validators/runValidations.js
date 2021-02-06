@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 
 const runValidations = async (req, res, next, validations, resHelper) => {
     for (let validation of validations) {
+        if (!validation) continue;
         const result = await validation.run(req);
         if (result.errors.length) break;
     }
