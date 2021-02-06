@@ -32,8 +32,13 @@ class LostItemRouter {
                 (req, res, next) => this.lostItemController.update({ req, res, next }))
             .delete((req, res, next) => this.lostItemController.delete({ req, res, next }))
 
-        this.router.post('/:id/upload-item-image',
-            (req, res, next) => this.lostItemImageController.uploadImage({ req, res, next }));
+        this.router.route('/:id/item-image')
+            .get((req, res, next) => this.lostItemImageController.getImages({ req, res, next }))
+            .post((req, res, next) => this.lostItemImageController.uploadImage({ req, res, next }));
+
+        this.router.route('/:id/item-image/:lost_item_image_id')
+            .get((req, res, next) => this.lostItemImageController.showImage({ req, res, next }))
+            .delete((req, res, next) => this.lostItemImageController.removeImage({ req, res, next }));
 
     }
 

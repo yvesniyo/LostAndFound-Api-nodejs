@@ -6,7 +6,7 @@ class UserItemService {
 
 
     async all() {
-        return await this.userItemModel.forge().fetchAll()
+        return await this.userItemModel.findAll()
     }
 
     async create({ lost_type_id, user_id, card_no, holder_name }) {

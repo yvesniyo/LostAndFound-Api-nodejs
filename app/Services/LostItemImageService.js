@@ -18,9 +18,9 @@ class LostItemImageService {
         return await this.lostItemImageModel.findById(id, { require: false })
     }
 
-    async delete(id) {
+    async removeImage({ lost_item_id, lost_item_image_id }) {
         try {
-            return await this.lostItemImageModel.destroy({ id }, { require: false });
+            return await this.lostItemImageModel.destroy({ id: lost_item_image_id }, { require: false });
         } catch (error) {
             if (error.message == "No Rows Deleted") {
                 return null;

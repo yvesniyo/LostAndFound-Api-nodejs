@@ -7,11 +7,11 @@ class UserItemController {
 
 
     async index({ req, res, next }) {
-        return this.resHelper({ res })
+        return this.resHelper({ res, data: (await this.userItemService.all()) })
     }
 
     async show({ req, res, next }) {
-        return this.resHelper({ res , data: (await this.userItemService.find(req.params.id)) })
+        return this.resHelper({ res, data: (await this.userItemService.find(req.params.id)) })
     }
 
     async store({ req, res, next }) {
@@ -23,11 +23,11 @@ class UserItemController {
     async update({ req, res, next }) {
         const { lost_type_id, card_no, holder_name } = req.body
         const item = await this.userItemService.update({ lost_type_id, user_id: req.user.id, card_no, holder_name }, req.params.id)
-        return this.resHelper({ res, data: item})
+        return this.resHelper({ res, data: item })
     }
 
     async delete({ req, res, next }) {
-        return this.resHelper({ res, data: (await this.userItemService.delete(req.params.id) ) })
+        return this.resHelper({ res, data: (await this.userItemService.delete(req.params.id)) })
     }
 }
 

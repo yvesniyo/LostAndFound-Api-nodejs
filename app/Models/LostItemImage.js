@@ -15,7 +15,7 @@ class LostItemImage extends ModelBase {
     }
 
 
-    tableName() {
+    get tableName() {
         return "lost_item_images"
     }
 

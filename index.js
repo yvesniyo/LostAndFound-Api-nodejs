@@ -40,6 +40,7 @@ class MyApp {
     }
 
     registerMiddlewares() {
+        this.expressApp.use(this.express.static(__dirname + '/public'));
         this.expressApp.use(this.cors);
         this.expressApp.use(this.logger(this.APP_ENV));
         this.expressApp.use(this.express.json());
