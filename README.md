@@ -16,9 +16,9 @@ $ npm install
 
 ## Setup
 
-Create .env and copy .env.example to it
-change DATABASE_NAME to your created db name
-and set password if not root
+Create `.env` and copy `.env.example` to it
+change `DATABASE_NAME` to your created db name
+and set `DATABASE_PASSWORD` if not root
 
 ### Migration
 
